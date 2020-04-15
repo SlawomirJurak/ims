@@ -1,0 +1,18 @@
+.period-year {
+    width: 80px;
+    display: inline-block;
+}
+
+.period-description {
+    width: 250px;
+    display: inline-block;
+}
+
+.period-state {
+    width: 140px;
+    display: inline-block;
+}
+
+.period-schedule {
+    display: none;
+}

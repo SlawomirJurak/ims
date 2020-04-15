@@ -1,0 +1,24 @@
+.audit-id {
+    width: 50px;
+}
+
+.audit-description {
+    width: 250px;
+    vertical-align: middle;
+}
+
+.audit-approve-date {
+    width: 80px;
+}
+
+.audit-approved-by {
+    width: 150px;
+}
+
+.audit-state {
+    width: 120px;
+}
+
+.ncofi-list {
+    display: none;
+}

@@ -1,0 +1,2 @@
+<link href="${pageContext.request.contextPath}/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/css/ims.css" rel="stylesheet">
