@@ -6,10 +6,12 @@
 <html>
 <head>
     <title>Zintegrowany System Zarządzania</title>
+    <meta name="csrf-token" content="${_csrf.token}">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/ims.css" rel="stylesheet">
     <script src="/jquery/jquery-3.4.1.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/process/all.js"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">
@@ -34,6 +36,7 @@
                 <th>Właściciel</th>
                 <th>Status</th>
                 <th colspan="2">Akcje</th>
+                <th>Dokument</th>
             </tr>
             </thead>
             <c:forEach items="${allProcesses}" var="process" varStatus="loop">
@@ -66,6 +69,14 @@
                                 </c:when>
                             </c:choose>
                         </form>
+                    </td>
+                    <td>
+                        <div>
+                            <label for="file${process.id}" class="btn-sm btn-light file-name">Wgraj dokument</label>
+                            <input id="file${process.id}" style="display: none" type="file" class="file-to-upload" name="documentFile" accept=".pdf,.java,.txt">
+                            <button class="btn-sm btn-light btn-upload" style="display: none" data-id="${process.id}">Zapisz</button>
+                            <button class="btn-sm btn-secondary btn-show" style="display: none" data-id="${process.id}">Pokaż</button>
+                        </div>
                     </td>
                 </tr>
             </c:forEach>

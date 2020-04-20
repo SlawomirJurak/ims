@@ -1,5 +1,7 @@
 package pl.sgnit.ims.model;
 
+import org.w3c.dom.Document;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -25,6 +27,9 @@ public class Process {
     @NotBlank
     @Size(max=10)
     private String code;
+
+    @OneToOne
+    public DocumentFile documentFile;
 
     public Long getId() {
         return id;
@@ -68,6 +73,14 @@ public class Process {
 
     public String getCodeAndName() {
         return code+" - "+name;
+    }
+
+    public DocumentFile getDocumentFile() {
+        return documentFile;
+    }
+
+    public void setDocumentFile(DocumentFile documentFile) {
+        this.documentFile = documentFile;
     }
 
     @PrePersist

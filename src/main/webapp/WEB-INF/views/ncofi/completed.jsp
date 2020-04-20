@@ -10,7 +10,7 @@
     <link href="/css/ims.css" rel="stylesheet">
     <script src="/jquery/jquery-3.4.1.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/js/ncofi_completed.js"></script>
+    <script src="/ncofi/ncofi_completed.js"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">

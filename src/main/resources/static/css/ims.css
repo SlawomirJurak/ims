@@ -3,10 +3,24 @@
     top: 0;
     height: 50px;
     background-color: lightsteelblue;
-    color: #0069d9;
     width: 100%;
     padding: 15px;
+    display: flex;
 }
+
+.header .title {
+    color: #0069d9;
+}
+
+.header .info{
+    display: flex;
+    margin-left: auto;
+}
+
+.header .info .user-info {
+    margin-right: 20px;
+}
+
 .content {
     margin-top: 50px;
 }
@@ -76,4 +90,11 @@
 .message-red {
     color: darkred;
 }
+
+.field-label {
+    margin-bottom: 0px;
+    margin-top: 5px;
+}
+
+
 

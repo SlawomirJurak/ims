@@ -54,6 +54,7 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return  "user/addEdit";
         }
+        user.setEnabled(true);
         userService.saveUser(user);
         return "redirect:";
     }

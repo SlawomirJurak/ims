@@ -11,7 +11,7 @@
     <link href="/css/scheduleperiod.css" rel="stylesheet">
     <script src="/jquery/jquery-3.4.1.min.js"></script>
     <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/js/ncofi_approve.js"></script>
+    <script src="/static/js/ncofi/ncofi_approve.js"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">

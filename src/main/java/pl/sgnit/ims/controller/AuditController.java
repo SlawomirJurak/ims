@@ -13,6 +13,7 @@ import pl.sgnit.ims.service.ScheduleAuditService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/audit")
@@ -46,27 +47,27 @@ public class AuditController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute Audit audit, @RequestParam Long scheduleAuditId) {
-        ScheduleAudit scheduleAudit = scheduleAuditService.findById(scheduleAuditId).get();
+        Optional<ScheduleAudit> scheduleAudit = scheduleAuditService.findById(scheduleAuditId);
 
-        audit.setScheduleAudit(scheduleAudit);
+        audit.setScheduleAudit(scheduleAudit.get());
         auditService.save(audit);
         return "redirect:/scheduleperiod/";
     }
 
     @GetMapping("/edit")
     public String initEdit(Model model, @RequestParam Long idToEdit) {
-        Audit audit = auditService.findById(idToEdit).get();
+        Optional<Audit> audit = auditService.findById(idToEdit);
 
-        model.addAttribute("audit", audit);
+        model.addAttribute("audit", audit.get());
         return "audit/addEdit";
     }
 
     @PostMapping("/edit")
     public String edit(@ModelAttribute Audit audit) {
-        Audit oldAudit = auditService.findById(audit.getId()).get();
+        Optional<Audit> oldAudit = auditService.findById(audit.getId());
 
-        audit.setScheduleAudit(oldAudit.getScheduleAudit());
-        audit.setNcofiList(oldAudit.getNcofiList());
+        audit.setScheduleAudit(oldAudit.get().getScheduleAudit());
+        audit.setNcofiList(oldAudit.get().getNcofiList());
         auditService.save(audit);
         return "redirect:";
     }

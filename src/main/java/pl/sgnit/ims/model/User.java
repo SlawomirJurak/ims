@@ -1,13 +1,17 @@
 package pl.sgnit.ims.model;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class  User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +33,18 @@ public class User {
 
     private String password;
 
-    private boolean enabled;
+    private Boolean enabled;
+
+    @Email
+    private String email;
+
+    @ColumnDefault("false")
+    private Boolean administrator;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -60,11 +70,11 @@ public class User {
         this.password = password;
     }
 
-    public boolean getEnabled() {
+    public Boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -96,8 +106,33 @@ public class User {
         return lastName + " " + firstName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Boolean administrator) {
+        this.administrator = administrator;
+    }
+
     @PrePersist
     public void prePersist() {
-        enabled = false;
+        if (enabled == null) {
+            enabled = false;
+        }
+        if (administrator == null) {
+            administrator = false;
+        }
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 }

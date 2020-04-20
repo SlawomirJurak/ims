@@ -41,7 +41,7 @@
                 <div class="audit-approved-by inline-block">${audit.approvedBy}</div>
                 <div class="audit-approve-date inline-block">${audit.approveDate}</div>
                 <div class="audit-state inline-block">${audit.state}</div>
-                <c:if test="${audit.state=='W przyfotowaniu'}">
+                <c:if test="${audit.state=='W przygotowaniu'}">
                     <div class="inline-block">
                         <form class="inline-block" method="get" action="edit">
                             <input type="hidden" value="${audit.id}" name="idToEdit">
