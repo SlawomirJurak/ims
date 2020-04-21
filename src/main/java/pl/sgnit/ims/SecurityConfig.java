@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/user/**").hasAnyAuthority("ROLE_ADMIN", "administrator")
                 .antMatchers("/role/**").hasAnyAuthority("ROLE_ADMIN", "administrator")
+                .antMatchers("/documents/**").hasAnyAuthority("ROLE_ADMIN", "administrator")
                 .antMatchers("/audit/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
                 .antMatchers("/ncofi/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
                 .antMatchers("/process/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")

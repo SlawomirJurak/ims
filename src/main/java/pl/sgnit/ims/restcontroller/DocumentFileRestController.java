@@ -18,8 +18,8 @@ public class DocumentFileRestController {
 
     @PostMapping("/documents/radd")
     public String addPhoto(@RequestParam("documentFile") MultipartFile file, @RequestParam("processId") Long processId) {
+        String result = documentFileService.saveDocument(file, processId);
 
-        documentFileService.saveDocument(file, processId);
-        return "OK";
+        return result;
     }
 }

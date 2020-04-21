@@ -72,10 +72,27 @@
                     </td>
                     <td>
                         <div>
-                            <label for="file${process.id}" class="btn-sm btn-light file-name">Wgraj dokument</label>
-                            <input id="file${process.id}" style="display: none" type="file" class="file-to-upload" name="documentFile" accept=".pdf,.java,.txt">
-                            <button class="btn-sm btn-light btn-upload" style="display: none" data-id="${process.id}">Zapisz</button>
-                            <button class="btn-sm btn-secondary btn-show" style="display: none" data-id="${process.id}">Pokaż</button>
+                            <c:choose>
+                                <c:when test="${empty process.documentFile.id}">
+                                    <c:set var="labelCaption" value="Wgraj dokument"></c:set>
+                                    <c:set var="btnUploadCaption" value="Zapisz"></c:set>
+                                    <c:set var="btnShowStyle" value="none"></c:set>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="labelCaption" value="Podmień"></c:set>
+                                    <c:set var="btnUploadCaption" value="Podmień"></c:set>
+                                    <c:set var="btnShowStyle" value="inline-block"></c:set>
+                                </c:otherwise>
+                            </c:choose>
+                            <label for="file${process.id}" class="btn-sm btn-light file-name">${labelCaption}</label>
+                            <input id="file${process.id}" style="display: none" type="file" class="file-to-upload"
+                                   name="documentFile" accept=".pdf,.java,.txt">
+                            <button class="btn-sm btn-light btn-upload" style="display: none" data-id="${process.id}">
+                                    ${btnUploadCaption}
+                            </button>
+                            <button class="btn-sm btn-secondary btn-show" style="display: ${btnShowStyle}"
+                                    data-id="${process.id}">Pokaż
+                            </button>
                         </div>
                     </td>
                 </tr>

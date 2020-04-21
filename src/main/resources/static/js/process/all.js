@@ -27,6 +27,7 @@ function setFileName(fileInput) {
 function uploadFile(buttonUpload) {
     let formData = new FormData();
     let file = buttonUpload.siblings('.file-to-upload')[0].files[0];
+    let buttonShow = buttonUpload.siblings('.btn-show');
 
     formData.append('documentFile', file); // nazwa parametru musi być taka sama jak parametru w funkcji w kontrolerze
     formData.append('processId', buttonUpload.data('id'));
@@ -41,8 +42,13 @@ function uploadFile(buttonUpload) {
         processData: false,
         timeout: 60000
     }).done(function (result) {
-        buttonUpload.hide();
-        buttonUpload.siblings('.file-name').text('Podmień');
+        if (result==='OK') {
+            buttonUpload.hide();
+            buttonUpload.siblings('.file-name').text('Podmień');
+            buttonShow.show();
+        } else {
+            showDialog(result);
+        }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log('Wystąpił błąd podczas rejestracji nowego użytkownika');
         console.log(jqXHR);
