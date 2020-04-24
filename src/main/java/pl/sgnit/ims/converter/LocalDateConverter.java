@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class LocalDateConverter implements Converter<String, LocalDate> {
     @Override
     public LocalDate convert(String s) {
-        if(s==null || s.isEmpty()) {
+        if (s == null || s.isEmpty()) {
             return null;
         }
         return LocalDate.parse(s);

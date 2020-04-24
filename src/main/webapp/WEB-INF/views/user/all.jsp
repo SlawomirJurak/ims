@@ -11,6 +11,7 @@
     <link href="${pageContext.request.contextPath}/css/user.css" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/functions.js"></script>
     <script src="${pageContext.request.contextPath}/js/user/user_all.js"></script>
 </head>
 <body>

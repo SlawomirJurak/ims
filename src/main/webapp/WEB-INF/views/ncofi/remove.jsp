@@ -6,12 +6,12 @@
 <html>
 <head>
     <title>Zintegrowany System Zarządzania</title>
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/ims.css" rel="stylesheet">
-    <link href="/css/scheduleperiod.css" rel="stylesheet">
-    <script src="/jquery/jquery-3.4.1.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/js/scheduleperiod.js"></script>
+    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/scheduleperiod.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/scheduleperiod.js"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">

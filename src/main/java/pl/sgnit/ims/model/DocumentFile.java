@@ -18,6 +18,8 @@ public class DocumentFile {
     @Size(max = 512)
     private String fileName;
 
+    private String originalFileName;
+
     public Long getId() {
         return id;
     }
@@ -32,5 +34,13 @@ public class DocumentFile {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
     }
 }

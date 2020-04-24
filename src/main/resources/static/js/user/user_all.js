@@ -372,8 +372,3 @@ function createEmptyRow() {
     row.append(cell);
     return row;
 }
-
-function showDialog(communicate) {
-    $('.modal-body').text(communicate);
-    $('#modalDialog').modal('show');
-}

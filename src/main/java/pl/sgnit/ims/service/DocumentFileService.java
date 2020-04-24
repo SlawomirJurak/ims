@@ -1,19 +1,27 @@
 package pl.sgnit.ims.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sgnit.ims.model.DocumentFile;
 import pl.sgnit.ims.model.Process;
 import pl.sgnit.ims.properties.FileStorageProperties;
 import pl.sgnit.ims.repository.DocumentFileRepository;
+import pl.sgnit.ims.util.DocumentFileResource;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 public class DocumentFileService {
@@ -38,6 +46,7 @@ public class DocumentFileService {
         documentFileRepository.save(documentFile);
         fileName = createFileName(file.getOriginalFilename(), processId, documentFile.getId());
         documentFile.setFileName(fileName);
+        documentFile.setOriginalFileName(file.getOriginalFilename());
         documentFileRepository.save(documentFile);
         try {
             Path path = Paths.get(fileStorageProperties.getUploadDir() + fileName);
@@ -58,6 +67,40 @@ public class DocumentFileService {
             documentFileRepository.delete(documentFile);
         }
         return result;
+    }
+
+    public ResponseEntity<Resource> getDocumentFile(Long documentFileId, HttpServletRequest request) {
+        Resource resource = loadFileAsResource(documentFileId);
+
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException ex) {
+            System.out.println("Could not determine file type.");
+        }
+
+        // Fallback to the default content type if type could not be determined
+        if(contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
+    }
+
+    public Boolean checkDocumentExists(Long documentFileId) {
+        Optional<DocumentFile> documentFile = documentFileRepository.findById(documentFileId);
+
+        if (documentFile.isPresent()) {
+            Path path = Paths.get(fileStorageProperties.getUploadDir()+documentFile.get().getFileName());
+
+            if (Files.exists(path)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String createFileName(String originalFileName, Long processId, Long documentId) {
@@ -81,4 +124,23 @@ public class DocumentFileService {
             }
         }
     }
+
+    private Resource loadFileAsResource(Long documentFileId) {
+        Resource result;
+
+        try {
+            DocumentFile documentFile = documentFileRepository.findById(documentFileId).get();
+            Path filePath = Paths.get(fileStorageProperties.getUploadDir()+documentFile.getFileName()).normalize();
+            Resource resource = new DocumentFileResource(filePath.toUri(), documentFile.getOriginalFileName());
+            if(resource.exists()) {
+                result = resource;
+            } else {
+                result = null;
+            }
+        } catch (MalformedURLException ex) {
+            result = null;
+        }
+        return result;
+    }
+
 }

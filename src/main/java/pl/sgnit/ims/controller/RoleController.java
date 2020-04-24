@@ -31,21 +31,4 @@ public class RoleController {
         model.addAttribute("roles", roles);
         return "role/all";
     }
-
-    @GetMapping("/add")
-    public String initAdd(Model model) {
-        Role role = new Role();
-
-        model.addAttribute("role", role);
-        return "role/addEdit";
-    }
-
-    @PostMapping("/add")
-    public String add(@Valid Role role, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "role/addEdit";
-        }
-        roleRepository.save(role);
-        return "redirect:";
-    }
 }

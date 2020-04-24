@@ -7,13 +7,15 @@
 <head>
     <title>Zintegrowany System Zarządzania</title>
     <meta name="csrf-token" content="${_csrf.token}">
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/ims.css" rel="stylesheet">
-    <script src="/jquery/jquery-3.4.1.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/js/process/all.js"></script>
+    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/functions.js"></script>
+    <script src="${pageContext.request.contextPath}/js/process/all.js"></script>
 </head>
 <body>
+<%@include file="../template/modalDialog.jspf"%>
 <jsp:include page="../template/header.jsp">
     <jsp:param name="additionalTitle" value="Procesy"/>
 </jsp:include>
@@ -84,14 +86,18 @@
                                     <c:set var="btnShowStyle" value="inline-block"></c:set>
                                 </c:otherwise>
                             </c:choose>
-                            <label for="file${process.id}" class="btn-sm btn-light file-name">${labelCaption}</label>
-                            <input id="file${process.id}" style="display: none" type="file" class="file-to-upload"
-                                   name="documentFile" accept=".pdf,.java,.txt">
-                            <button class="btn-sm btn-light btn-upload" style="display: none" data-id="${process.id}">
-                                    ${btnUploadCaption}
-                            </button>
+                            <c:if test="${process.state=='W przygotowaniu'}">
+                                <label for="file${process.id}"
+                                       class="btn-sm btn-light file-name">${labelCaption}</label>
+                                <input id="file${process.id}" style="display: none" type="file" class="file-to-upload"
+                                       name="documentFile" accept=".pdf">
+                                <button class="btn-sm btn-light btn-upload" style="display: none"
+                                        data-id="${process.id}">
+                                        ${btnUploadCaption}
+                                </button>
+                            </c:if>
                             <button class="btn-sm btn-secondary btn-show" style="display: ${btnShowStyle}"
-                                    data-id="${process.id}">Pokaż
+                                    data-id="${process.documentFile.id}">Pokaż
                             </button>
                         </div>
                     </td>

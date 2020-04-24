@@ -11,6 +11,9 @@ $(document).ready(function () {
     $('.btn-upload').click(function () {
         uploadFile($(this));
     });
+    $('.btn-show').click(function () {
+        showFile($(this));
+    });
 });
 
 function setFileName(fileInput) {
@@ -18,7 +21,7 @@ function setFileName(fileInput) {
     let fileName = fileInput[0].files[0].name;
 
     if (fileName.length > 20) {
-        fileName = fileName.substr(0, 8)+"..."+fileName.slice(-8);
+        fileName = fileName.substr(0, 8) + "..." + fileName.slice(-8);
     }
     fileBtn.text(fileName);
     fileInput.siblings('.btn-upload').show();
@@ -42,12 +45,30 @@ function uploadFile(buttonUpload) {
         processData: false,
         timeout: 60000
     }).done(function (result) {
-        if (result==='OK') {
+        if (result === 'OK') {
             buttonUpload.hide();
             buttonUpload.siblings('.file-name').text('Podmień');
             buttonShow.show();
         } else {
             showDialog(result);
+        }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log('Wystąpił błąd podczas rejestracji nowego użytkownika');
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    });
+}
+
+function showFile(buttonShow) {
+    $.ajax({
+        url: '/documents/rcheckExists/' + buttonShow.data('id'),
+        method: 'POST'
+    }).done(function (result) {
+        if (result == true) {
+            window.location.href = '/documents/rget/' + buttonShow.data('id');
+        } else {
+            showDialog('Błąd podczas pobierania pliku');
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
         console.log('Wystąpił błąd podczas rejestracji nowego użytkownika');

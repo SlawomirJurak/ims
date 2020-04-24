@@ -40,22 +40,4 @@ public class UserController {
         model.addAttribute("users", users);
         return "user/all";
     }
-
-    @GetMapping("/add")
-    public String initAdd(Model model) {
-        User user = new User();
-
-        model.addAttribute("user", user);
-        return "user/addEdit";
-    }
-
-    @PostMapping("/add")
-    public String add(@Valid User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return  "user/addEdit";
-        }
-        user.setEnabled(true);
-        userService.saveUser(user);
-        return "redirect:";
-    }
 }

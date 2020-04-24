@@ -6,11 +6,11 @@
 <head>
     <title>Role</title>
     <meta name="csrf-token" content="${_csrf.token}">
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
-    <script src="/jquery/jquery-3.4.1.min.js"></script>
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/js/role/role_all.js"></script>
+    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/role/role_all.js"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">
