@@ -10,6 +10,7 @@ import pl.sgnit.ims.service.DocumentFileService;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
+@RequestMapping("/documents")
 public class DocumentFileRestController {
     private final DocumentFileService documentFileService;
 
@@ -18,19 +19,19 @@ public class DocumentFileRestController {
         this.documentFileService = documentFileService;
     }
 
-    @PostMapping("/documents/radd")
+    @PostMapping("/radd")
     public String addDocumentFile(@RequestParam("documentFile") MultipartFile file, @RequestParam("processId") Long processId) {
         String result = documentFileService.saveDocument(file, processId);
 
         return result;
     }
 
-    @GetMapping("/documents/rget/{documentFileId:[1-9][0-9]*}")
+    @GetMapping("/rget/{documentFileId:[1-9][0-9]*}")
     public ResponseEntity<Resource> getDocumentFile(@PathVariable Long documentFileId, HttpServletRequest request) {
         return documentFileService.getDocumentFile(documentFileId, request);
     }
 
-    @PostMapping("/documents/rcheckExists/{documentFileId:[1-9][0-9]*}")
+    @PostMapping("/rcheckExists/{documentFileId:[1-9][0-9]*}")
     public Boolean checkDocumentExists(@PathVariable Long documentFileId) {
         return documentFileService.checkDocumentExists(documentFileId);
     }

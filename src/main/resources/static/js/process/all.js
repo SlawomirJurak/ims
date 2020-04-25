@@ -14,6 +14,12 @@ $(document).ready(function () {
     $('.btn-show').click(function () {
         showFile($(this));
     });
+    $('.btn-remove').click(function () {
+        initRemoveProcess($(this));
+    });
+    $('#btn-confirm-remove').click(function () {
+        removeProcess($(this).data('processId'));
+    });
 });
 
 function setFileName(fileInput) {
@@ -75,5 +81,21 @@ function showFile(buttonShow) {
         console.log(jqXHR);
         console.log(textStatus);
         console.log(errorThrown);
+    });
+}
+
+function initRemoveProcess(buttonRemove) {
+    let processId = buttonRemove.closest('tr').data('processId');
+    $('#btn-confirm-remove').data('processId', processId);
+    showConfirmRemoveDialog('Czy usunąć wybrany proces?');
+}
+
+function removeProcess(processId) {
+    hideConfirmRemoveDialog();
+    let row = $('tr[data-process-id="'+processId+'"]');
+
+    row.remove();
+    $('.data-row').each(function (index) {
+        $(this).find('.row-no').text(index+1);
     });
 }

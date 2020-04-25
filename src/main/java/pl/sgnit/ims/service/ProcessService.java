@@ -37,4 +37,8 @@ public class ProcessService {
     public List<Process> getActiveProcesses() {
         return processRepository.findByState("Aktywny");
     }
+
+    public void removeProcess(Long processId) {
+        processRepository.deleteById(processId);
+    }
 }

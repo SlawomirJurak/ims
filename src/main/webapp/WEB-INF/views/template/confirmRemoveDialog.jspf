@@ -1,0 +1,22 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<div class="modal fade" id="confirm-dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirm-dialog-title">Komunikat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="confirm-dialog-communicate">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-sm btn-secondary" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn-sm btn-danger" id="btn-confirm-remove">Usuń</button>
+            </div>
+        </div>
+    </div>
+</div>

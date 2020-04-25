@@ -15,7 +15,8 @@
     <script src="${pageContext.request.contextPath}/js/process/all.js"></script>
 </head>
 <body>
-<%@include file="../template/modalDialog.jspf"%>
+<%@include file="../template/modalDialog.jspf" %>
+<%@include file="../template/confirmRemoveDialog.jspf" %>
 <jsp:include page="../template/header.jsp">
     <jsp:param name="additionalTitle" value="Procesy"/>
 </jsp:include>
@@ -42,8 +43,8 @@
             </tr>
             </thead>
             <c:forEach items="${allProcesses}" var="process" varStatus="loop">
-                <tr>
-                    <td class="align-middle">${loop.index + 1}</td>
+                <tr data-process-id="${process.id}" class="data-row">
+                    <td class="align-middle row-no">${loop.index + 1}</td>
                     <td class="align-middle">${process.code}</td>
                     <td class="align-middle">${process.name}</td>
                     <td class="align-middle">${process.owner}</td>
@@ -54,6 +55,7 @@
                                 <input type="hidden" value="${process.id}" name="idToEdit">
                                 <button class="btn-sm btn-primary">Edycja</button>
                             </form>
+                            <button type="button" class="btn-sm btn-danger btn-remove">Usuń</button>
                         </c:if>
                     </td>
                     <td class="align-middle">
