@@ -97,7 +97,7 @@
                                 </button>
                             </c:if>
                             <button class="btn-sm btn-secondary btn-show" style="display: ${btnShowStyle}"
-                                    data-id="${process.documentFile.id}">Pokaż
+                                    data-id="${process.documentFile.id}">Pobierz
                             </button>
                         </div>
                     </td>
