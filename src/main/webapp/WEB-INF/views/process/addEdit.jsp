@@ -32,6 +32,7 @@
         <form:form method="post" modelAttribute="process">
             <form:hidden path="id"/>
             <form:hidden path="state"/>
+            <input type="hidden" id="rv" name="rv" value="${process.rv}">
             <table>
                 <tr>
                     <td class="align-middle left-padding right-padding">

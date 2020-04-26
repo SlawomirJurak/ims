@@ -15,6 +15,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import pl.sgnit.ims.converter.LocalDateConverter;
+import pl.sgnit.ims.converter.LocalDateTimeConverter;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -52,6 +53,7 @@ public class AppConfig {
     private Set<Converter> getConverters() {
         Set<Converter> converters = new HashSet<>();
         converters.add(new LocalDateConverter());
+        converters.add(new LocalDateTimeConverter());
         return converters;
     }
 

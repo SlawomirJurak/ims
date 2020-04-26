@@ -5,6 +5,7 @@ import org.w3c.dom.Document;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "processes")
@@ -29,7 +30,11 @@ public class Process {
     private String code;
 
     @OneToOne
-    public DocumentFile documentFile;
+    private DocumentFile documentFile;
+
+    @Version
+    @Column(columnDefinition = "timestamp default now()")
+    private LocalDateTime rv;
 
     public Long getId() {
         return id;
@@ -81,6 +86,14 @@ public class Process {
 
     public void setDocumentFile(DocumentFile documentFile) {
         this.documentFile = documentFile;
+    }
+
+    public LocalDateTime getRv() {
+        return rv;
+    }
+
+    public void setRv(LocalDateTime rv) {
+        this.rv = rv;
     }
 
     @PrePersist
