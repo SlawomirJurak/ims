@@ -19,7 +19,7 @@
     <sec:authorize access="isAuthenticated()">
         <div class="info">
             <div class="user-info font10pt font-weight-bold">
-                <sec:authentication property="principal.username"/>
+                Witaj: <sec:authentication property="principal.username"/>
             </div>
             <div>
                 <a href="/logout">Wyloguj</a>

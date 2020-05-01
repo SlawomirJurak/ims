@@ -18,7 +18,7 @@ $(document).ready(function () {
         initRemoveProcess($(this));
     });
     $('#btn-confirm-remove').click(function () {
-        removeProcess($(this).data('processId'));
+        removeProcess($(this));
     });
 });
 
@@ -85,17 +85,39 @@ function showFile(buttonShow) {
 }
 
 function initRemoveProcess(buttonRemove) {
-    let processId = buttonRemove.closest('tr').data('processId');
+    let row = buttonRemove.closest('tr');
+    let processId = row.data('processId');
+    let rv = row.data('rv'); // record version
+
     $('#btn-confirm-remove').data('processId', processId);
+    $('#btn-confirm-remove').data('rv', rv);
     showConfirmRemoveDialog('Czy usunąć wybrany proces?');
 }
 
-function removeProcess(processId) {
+function removeProcess(button) {
     hideConfirmRemoveDialog();
-    let row = $('tr[data-process-id="'+processId+'"]');
 
-    row.remove();
-    $('.data-row').each(function (index) {
-        $(this).find('.row-no').text(index+1);
-    });
+    let processId = button.data('processId');
+    let processRv = button.data('rv');
+    let row = $('tr[data-process-id="'+processId+'"]');
+    let process = {
+        id: processId,
+        rv: processRv
+    }
+
+    $.ajax({
+        url: '/process/remove',
+        method: 'DELETE',
+        data: JSON.stringify(process),
+        contentType: 'application/json'
+    }).done(function (result) {
+        if (result == 'OK') {
+            row.remove();
+            $('.data-row').each(function (index) {
+                $(this).find('.row-no').text(index + 1);
+            });
+        } else {
+            showDialog(result);
+        }
+    })
 }

@@ -47,8 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/scheduleaudit/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
                 .antMatchers("/scheduleperiod/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
                 .antMatchers("/").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
-
                 .and().formLogin()
+                .loginPage("/login")
                 .and().logout().logoutSuccessUrl("/login");
     }
 

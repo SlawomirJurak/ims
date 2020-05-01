@@ -1,5 +1,6 @@
 package pl.sgnit.ims.service;
 
+import org.hibernate.StaleObjectStateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sgnit.ims.model.Process;
@@ -38,7 +39,28 @@ public class ProcessService {
         return processRepository.findByState("Aktywny");
     }
 
-    public void removeProcess(Long processId) {
-        processRepository.deleteById(processId);
+    public String removeProcess(Process process) {
+        String result = "OK";
+
+        try {
+            processRepository.delete(process);
+        } catch (Exception ex) {
+            System.out.println(ex.getClass().getName());
+            result = "Proces został zmodyfikowany lub usunięty prze innego użytkownika";
+        }
+        return result;
+    }
+
+    private String checkRecord(Process process) {
+        Process tmpProcess = processRepository.findById(process.getId()).orElse(null);
+
+        if (tmpProcess == null) {
+            return "Wybrany proces został usunięty.";
+        }
+        tmpProcess = processRepository.findByIdAndRv(process.getId(), process.getRv()).orElse(null);
+        if (tmpProcess==null) {
+            return "Wybrany proces został zmieniony.";
+        }
+        return "OK";
     }
 }

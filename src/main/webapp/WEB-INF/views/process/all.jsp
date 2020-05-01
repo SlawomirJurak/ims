@@ -43,7 +43,7 @@
             </tr>
             </thead>
             <c:forEach items="${allProcesses}" var="process" varStatus="loop">
-                <tr data-process-id="${process.id}" class="data-row">
+                <tr data-process-id="${process.id}" data-rv="${process.rv}" class="data-row">
                     <td class="align-middle row-no">${loop.index + 1}</td>
                     <td class="align-middle">${process.code}</td>
                     <td class="align-middle">${process.name}</td>

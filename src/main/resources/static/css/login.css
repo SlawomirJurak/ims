@@ -1,0 +1,33 @@
+.div-form-login {
+    display: flex;
+    justify-content: center;
+}
+
+.form-login {
+    padding: 10px;
+    border: 1px solid #0069d9;
+    border-radius: 5px;
+}
+
+.div-label {
+    width: 90px;
+}
+
+.div-input {
+    width: 150px;
+}
+
+input {
+    width: 150px;
+}
+
+.div-error-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: darkred;
+    background-color: #cce5ff;
+    font-weight: bold;
+    font-size: 0.85em;
+    margin-bottom: 5px;
+}

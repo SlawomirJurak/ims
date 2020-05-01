@@ -4,17 +4,22 @@
     height: 50px;
     background-color: lightsteelblue;
     width: 100%;
-    padding: 15px;
-    display: flex;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
 
 .header .title {
     color: #0069d9;
+    display: flex;
+    align-items: center;
 }
 
 .header .info{
     display: flex;
-    margin-left: auto;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .header .info .user-info {
@@ -38,6 +43,10 @@
 .menu-item {
     padding: 10px;
     margin: auto;
+}
+
+.menu-item:hover {
+    background-color: #7abaff;
 }
 
 .menu-item-selected {
