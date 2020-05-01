@@ -22,14 +22,20 @@
         <form method="post" class="form-login">
             <c:if test="${not empty error}">
                 <div class="div-error-message">
-                    ${error}
+                        ${error}
                 </div>
             </c:if>
             <div style="padding-bottom: 5px">
-                <div class="div-label inline-block">Użytkownik:</div> <div class="div-input inline-block"><input type="text" name="username"/></div>
+                <div class="div-label inline-block">Użytkownik:</div>
+                <div class="div-input inline-block">
+                    <input type="text" name="username" autofocus/>
+                </div>
             </div>
             <div style="padding-bottom: 5px">
-                <div class="div-label inline-block">Hasło:</div> <div class="div-input inline-block"><input type="password" name="password"/></div>
+                <div class="div-label inline-block">Hasło:</div>
+                <div class="div-input inline-block">
+                    <input type="password" name="password"/>
+                </div>
             </div>
             <div style="display: flex; justify-content: center"><input type="submit" value="Zaloguj"/></div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
