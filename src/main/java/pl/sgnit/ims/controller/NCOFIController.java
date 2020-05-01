@@ -7,8 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.sgnit.ims.model.Audit;
 import pl.sgnit.ims.model.NonConformanceOpportunityForImprovement;
+import pl.sgnit.ims.model.Process;
 import pl.sgnit.ims.service.AuditService;
 import pl.sgnit.ims.service.NonConformanceOpportunityForImprovementService;
+import pl.sgnit.ims.service.ProcessService;
 import pl.sgnit.ims.util.ViewHelper;
 
 import javax.validation.Valid;
@@ -22,11 +24,13 @@ public class NCOFIController {
 
     private final NonConformanceOpportunityForImprovementService ncofiService;
     private final AuditService auditService;
+    private final ProcessService processService;
 
     @Autowired
-    public NCOFIController(NonConformanceOpportunityForImprovementService ncofiService, AuditService auditService) {
+    public NCOFIController(NonConformanceOpportunityForImprovementService ncofiService, AuditService auditService, ProcessService processService) {
         this.ncofiService = ncofiService;
         this.auditService = auditService;
+        this.processService = processService;
     }
 
     @ModelAttribute("ncofiTypes")
@@ -86,8 +90,12 @@ public class NCOFIController {
     @PostMapping("/edit")
     public String edit(@Valid @ModelAttribute("ncofi") NonConformanceOpportunityForImprovement ncofi, BindingResult bindingResult, Model model, @RequestParam Long auditId) {
         Audit audit = auditService.findById(auditId).get();
+        Process process = processService.findById(ncofi.getProcess().getId()).get();
 
         ncofi.setAudit(audit);
+        ncofi.setProcess(process);
+        System.out.println("proces: "+ncofi.getProcess().getId());
+        System.out.println("proces: "+ncofi.getProcess().getCode());
         if (bindingResult.hasErrors()) {
             model.addAttribute("ncofi", ncofi);
             model.addAttribute("auditId", ncofi.getAudit().getId());
