@@ -22,7 +22,7 @@
         <form method="post" class="form-login">
             <c:if test="${not empty error}">
                 <div class="div-error-message">
-                        ${error}
+                    ${error}
                 </div>
             </c:if>
             <div style="padding-bottom: 5px">
