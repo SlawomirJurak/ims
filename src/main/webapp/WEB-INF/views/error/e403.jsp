@@ -6,5 +6,6 @@
 <body>
 <h1>403</h1>
 <p>Wybrana strona jest niedostępna</p>
+<a href="/">Strona główna</a>
 </body>
 </html>

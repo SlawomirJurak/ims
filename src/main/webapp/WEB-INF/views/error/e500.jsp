@@ -8,5 +8,6 @@
 <body>
 <h1>500</h1>
 <p>Wystąpił błąd serwera, przepraszam za utrudnienia</p>
+<a href="/">Strona główna</a>
 </body>
 </html>
