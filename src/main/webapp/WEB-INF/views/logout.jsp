@@ -3,9 +3,7 @@
 
 <html>
 <head>
-    <title>Zintegrowany System Zarządzania</title>
-    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
+    <%@include file="../jspf/head.jspf" %>
 </head>
 <body>
 <div class="header">

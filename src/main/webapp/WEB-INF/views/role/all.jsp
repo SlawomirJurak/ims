@@ -4,13 +4,8 @@
 
 <html>
 <head>
-    <title>Role</title>
-    <meta name="csrf-token" content="${_csrf.token}">
-    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/role/role_all.js"></script>
+    <%@include file="../../jspf/head.jspf" %>
+    <script src="<c:url value="/js/role/role_all.js"/>"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">
@@ -22,9 +17,7 @@
     </jsp:include>
     <div class="data-view column">
         <div class="item-header">
-<%--            <a href="/role/add">--%>
-                <button id="btn-new-role" class="btn-sm btn-primary">Nowa rola</button>
-<%--            </a>--%>
+            <button id="btn-new-role" class="btn-sm btn-primary">Nowa rola</button>
         </div>
         <div id="new-role-form">
             <div class="inline-block">

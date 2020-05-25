@@ -1,4 +1,7 @@
+let contextPath;
+
 $(document).ready( function () {
+    contextPath = $('meta[name="context-path"]').attr('content');
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -35,7 +38,7 @@ function saveRole() {
     };
 
     $.ajax({
-        url: '/role/radd',
+        url: contextPath+'/role/radd',
         data: JSON.stringify(newRole),
         contentType: "application/json",
         method: "POST"
@@ -53,7 +56,7 @@ function getRoleList(result) {
     let roleList = [];
 
     $.ajax({
-        url: '/role/rroleList',
+        url: contextPath+'/role/rroleList',
         method: 'GET'
     }).done(function (result) {
         for (let i = 0; i < result.length; i++) {
@@ -61,8 +64,11 @@ function getRoleList(result) {
         }
         hideNewRoleForm();
         showRolesTable(roleList);
-    }).fail(function () {
-        console.log('Wystąpił błąd');
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log('Nie udało się pobrać listy ról');
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
     });
 }
 

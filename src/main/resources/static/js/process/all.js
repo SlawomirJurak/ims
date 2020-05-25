@@ -1,4 +1,7 @@
+let contextPath;
+
 $(document).ready(function () {
+    contextPath = $('meta[name="context-path"]').attr('content');
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -41,7 +44,7 @@ function uploadFile(buttonUpload) {
     formData.append('documentFile', file); // nazwa parametru musi być taka sama jak parametru w funkcji w kontrolerze
     formData.append('processId', buttonUpload.data('id'));
     $.ajax({
-        url: '/documents/radd',
+        url: contextPath+'/documents/radd',
         method: 'POST',
         async: true,
         enctype: 'multipart/form-data',
@@ -59,7 +62,7 @@ function uploadFile(buttonUpload) {
             showDialog(result);
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('Wystąpił błąd podczas rejestracji nowego użytkownika');
+        showDialog('Błąd podczas pobierania pliku');
         console.log(jqXHR);
         console.log(textStatus);
         console.log(errorThrown);
@@ -68,7 +71,7 @@ function uploadFile(buttonUpload) {
 
 function showFile(buttonShow) {
     $.ajax({
-        url: '/documents/rcheckExists/' + buttonShow.data('id'),
+        url: contextPath+'/documents/rcheckExists/' + buttonShow.data('id'),
         method: 'POST'
     }).done(function (result) {
         if (result == true) {
@@ -77,7 +80,7 @@ function showFile(buttonShow) {
             showDialog('Błąd podczas pobierania pliku');
         }
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('Wystąpił błąd podczas rejestracji nowego użytkownika');
+        showDialog('Błąd podczas pobierania pliku');
         console.log(jqXHR);
         console.log(textStatus);
         console.log(errorThrown);
@@ -106,7 +109,7 @@ function removeProcess(button) {
     }
 
     $.ajax({
-        url: '/process/remove',
+        url: contextPath+'/process/remove',
         method: 'DELETE',
         data: JSON.stringify(process),
         contentType: 'application/json'
@@ -119,5 +122,10 @@ function removeProcess(button) {
         } else {
             showDialog(result);
         }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        showDialog('Błąd podczas usuwanie procesu');
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
     })
 }

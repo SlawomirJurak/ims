@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <nav class="header">
@@ -22,7 +21,7 @@
                 Witaj: <sec:authentication property="principal.username"/>
             </div>
             <div>
-                <a href="/logout">Wyloguj</a>
+                <a href="<c:url value="/logout"/>">Wyloguj</a>
             </div>
         </div>
     </sec:authorize>

@@ -5,15 +5,11 @@
 
 <html>
 <head>
-    <title>Zintegrowany System Zarządzania</title>
-    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/scheduleperiod.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/audit.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ncofi.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/audit.js"></script>
+    <%@include file="../../jspf/head.jspf"%>
+    <link href="<c:url value="/css/scheduleperiod.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/audit.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/ncofi.css"/>" rel="stylesheet">
+    <script src="<c:url value="/js/audit.js"/>"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">
@@ -49,12 +45,11 @@
                         </form>
                         <form class="inline-block" method="get" action="approve">
                             <input type="hidden" value="${audit.id}" name="idToApprove">
-                                <%--                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
                             <button class="btn btn-secondary font10pt">Zatwierdź</button>
                         </form>
                     </div>
                     <div class="inline-block">
-                        <form method="get" action="/ncofi/add">
+                        <form method="get" action="<c:url value="/ncofi/add"/>">
                             <input type="hidden" value="${audit.id}" name="auditId">
                             <button class="btn btn-link font10pt">Nowa niezgodność/spostrzeżenie</button>
                         </form>
@@ -94,20 +89,20 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${empty ncofi.confirmedBy}">
-                                            <form method="get" action="/ncofi/edit" class="inline-block">
+                                            <form method="get" action="<c:url value="/ncofi/edit"/>" class="inline-block">
                                                 <input type="hidden" name="toEditNcofiId" value="${ncofi.id}">
                                                 <button class="btn-sm btn-primary">Edycja</button>
                                             </form>
-                                            <form method="get" action="/ncofi/remove" class="inline-block">
+                                            <form method="get" action="<c:url value="/ncofi/remove"/>" class="inline-block">
                                                 <input type="hidden" name="toRemoveNcofiId" value="${ncofi.id}">
                                                 <button class="btn-sm btn-danger">Usuń</button>
                                             </form>
-                                            <form method="get" action="/ncofi/confirm/${ncofi.id}" class="inline-block">
+                                            <form method="get" action="<c:url value="/ncofi/confirm/${ncofi.id}"/>" class="inline-block">
                                                 <button class="btn-sm btn-dark">Potwierdź</button>
                                             </form>
                                         </c:when>
                                         <c:when test="${empty ncofi.completeDate}">
-                                            <form method="get" action="/ncofi/completed/${ncofi.id}">
+                                            <form method="get" action="<c:url value="/ncofi/completed/${ncofi.id}"/>">
                                                 <c:choose>
                                                     <c:when test="${ncofi.type=='Niezgodność'}">
                                                         <button class="btn-sm btn-lg">Usunięta</button>

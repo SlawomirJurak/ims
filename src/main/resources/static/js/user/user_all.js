@@ -1,8 +1,10 @@
 const editRow = createEditRow();
 const removeRow = createRemoveRow();
 const changePasswordRow = createChangePasswordRow();
+let contextPath;
 
 $(document).ready(function () {
+    contextPath = $('meta[name="context-path"]').attr('content');
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -125,7 +127,7 @@ function saveUser(edit, button) {
         }
         let saveUrl = edit ? '/user/redit' : '/user/radd';
         $.ajax({
-            url: saveUrl,
+            url: contextPath+saveUrl,
             data: JSON.stringify(newUser),
             contentType: 'application/json',
             method: 'POST'
@@ -156,13 +158,13 @@ function removeUser(button) {
     let userId = findUserId(button);
 
     $.ajax({
-        url: '/user/rremove/' + userId,
+        url: contextPath+'/user/rremove/' + userId,
         method: 'DELETE'
     }).done(function (result) {
         button.closest('tr').prev().remove();
         hideRemoveRow();
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('Wystąpił błąd podczas rejestracji nowego użytkownika');
+        console.log('Wystąpił błąd podczas usuwania użytkownika');
         console.log(jqXHR);
         console.log(textStatus);
         console.log(errorThrown);
@@ -185,12 +187,17 @@ function changePassword(button) {
         showDialog('Wpisane hasła nie są takie same');
     } else {
         $.ajax({
-            url: '/user/changePassword/'+id+'/'+pass1,
+            url: contextPath+'/user/changePassword/'+id+'/'+pass1,
             method: 'POST'
         }).done( function (result) {
             hideChangePasswordRow();
             setButtonsDisabled(false);
-        })
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log('Wystąpił błąd podczas zmiany hasła');
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        });
     }
 }
 
@@ -208,7 +215,7 @@ function editUser(button) {
     let currentRow = button.closest('tr');
 
     $.ajax({
-        url: '/user/rget/' + button.data('id'),
+        url: contextPath+'/user/rget/' + button.data('id'),
         method: 'GET'
     }).done(function (result) {
         editRow.find('#row-user-name').val(result.userName);
@@ -220,6 +227,11 @@ function editUser(button) {
         editRow.find('#row-user-type').val(result.administrator ? 'y' : 'n');
         currentRow.after(editRow);
         setButtonsDisabled(true);
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log('Wystąpił błąd podczas zapisywania zmian');
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
     });
 }
 
@@ -279,15 +291,18 @@ function getUserList() {
     let userList = [];
 
     $.ajax({
-        url: '/user/rall',
+        url: contextPath+'/user/rall',
         method: 'GET'
     }).done(function (result) {
         for (let i = 0; i < result.length; i++) {
             userList.push(result[i]);
         }
         showUserList(userList);
-    }).fail(function () {
-        console.log('Wystąpił błąd');
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+        console.log('Nie udało pobrać się listy użytkowników');
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
     });
 }
 

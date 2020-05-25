@@ -1,6 +1,7 @@
 package pl.sgnit.ims.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.sgnit.ims.model.DocumentFile;
 import pl.sgnit.ims.model.Process;
-import pl.sgnit.ims.properties.FileStorageProperties;
 import pl.sgnit.ims.repository.DocumentFileRepository;
 import pl.sgnit.ims.util.DocumentFileResource;
 
@@ -27,14 +27,17 @@ import java.util.Optional;
 public class DocumentFileService {
 
     private final DocumentFileRepository documentFileRepository;
-    private final FileStorageProperties fileStorageProperties;
     private final ProcessService processService;
+    private final Environment environment;
+
+    private DateTimeFormatter dateTimeFormatter;
 
     @Autowired
-    public DocumentFileService(DocumentFileRepository documentFileRepository, FileStorageProperties fileStorageProperties, ProcessService processService) {
+    public DocumentFileService(DocumentFileRepository documentFileRepository, ProcessService processService, Environment environment) {
         this.documentFileRepository = documentFileRepository;
-        this.fileStorageProperties = fileStorageProperties;
         this.processService = processService;
+        this.environment = environment;
+        dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss-SSSSSS");
     }
 
     public String saveDocument(MultipartFile file, Long processId) {
@@ -49,7 +52,7 @@ public class DocumentFileService {
         documentFile.setOriginalFileName(file.getOriginalFilename());
         documentFileRepository.save(documentFile);
         try {
-            Path path = Paths.get(fileStorageProperties.getUploadDir() + fileName);
+            Path path = Paths.get(getUploadDir() + fileName);
 
             file.transferTo(path);
         } catch (IOException e) {
@@ -80,13 +83,13 @@ public class DocumentFileService {
         }
 
         // Fallback to the default content type if type could not be determined
-        if(contentType == null) {
+        if (contentType == null) {
             contentType = "application/octet-stream";
         }
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
 
@@ -94,7 +97,7 @@ public class DocumentFileService {
         Optional<DocumentFile> documentFile = documentFileRepository.findById(documentFileId);
 
         if (documentFile.isPresent()) {
-            Path path = Paths.get(fileStorageProperties.getUploadDir()+documentFile.get().getFileName());
+            Path path = Paths.get(getUploadDir() + documentFile.get().getFileName());
 
             if (Files.exists(path)) {
                 return true;
@@ -104,7 +107,6 @@ public class DocumentFileService {
     }
 
     private String createFileName(String originalFileName, Long processId, Long documentId) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH-mm-ss-SSSSSS");
         String result;
 
         result = processId + "_" + documentId + "_"
@@ -115,7 +117,7 @@ public class DocumentFileService {
 
     private void removeOldDocumentFile(DocumentFile oldDocumentFile) {
         if (oldDocumentFile != null) {
-            Path path = Paths.get(fileStorageProperties.getUploadDir() + oldDocumentFile.getFileName());
+            Path path = Paths.get(getUploadDir() + oldDocumentFile.getFileName());
             try {
                 Files.deleteIfExists(path);
                 documentFileRepository.deleteById(oldDocumentFile.getId());
@@ -130,9 +132,9 @@ public class DocumentFileService {
 
         try {
             DocumentFile documentFile = documentFileRepository.findById(documentFileId).get();
-            Path filePath = Paths.get(fileStorageProperties.getUploadDir()+documentFile.getFileName()).normalize();
+            Path filePath = Paths.get(getUploadDir() + documentFile.getFileName()).normalize();
             Resource resource = new DocumentFileResource(filePath.toUri(), documentFile.getOriginalFileName());
-            if(resource.exists()) {
+            if (resource.exists()) {
                 result = resource;
             } else {
                 result = null;
@@ -143,4 +145,7 @@ public class DocumentFileService {
         return result;
     }
 
+    private String getUploadDir() {
+        return environment.getProperty("file.upload-dir");
+    }
 }

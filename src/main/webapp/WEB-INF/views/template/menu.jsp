@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="menu column">
@@ -14,7 +13,7 @@
             </c:otherwise>
         </c:choose>
         <div class="${cssClass}">
-            <a href="/user/">Użytkownicy</a>
+            <a href="<c:url value="/user/"/>">Użytkownicy</a>
         </div>
 
         <c:choose>
@@ -26,7 +25,7 @@
             </c:otherwise>
         </c:choose>
         <div class="${cssClass}">
-            <a href="/role/">Role</a>
+            <a href="<c:url value="/role/"/>">Role</a>
         </div>
     </sec:authorize>
 
@@ -40,7 +39,7 @@
             </c:otherwise>
         </c:choose>
         <div class="${cssClass}">
-            <a href="/process/">Procesy</a>
+            <a href="<c:url value="/process/"/>">Procesy</a>
         </div>
     </sec:authorize>
 
@@ -54,7 +53,7 @@
             </c:otherwise>
         </c:choose>
         <div class="${cssClass}">
-            <a href="/scheduleperiod/">Harmonogramy</a>
+            <a href="<c:url value="/scheduleperiod/"/>">Harmonogramy</a>
         </div>
     </sec:authorize>
 

@@ -5,12 +5,8 @@
 
 <html>
 <head>
-    <title>Zintegrowany System Zarządzania</title>
-    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/ncofi/ncofi_completed.js"></script>
+    <%@include file="../../jspf/head.jspf"%>
+    <script src="<c:url value="/js/ncofi/ncofi_completed.js"/>"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">
@@ -59,7 +55,7 @@
                 <textarea id="taken-actions" name="takenActions" cols="50" rows="10"></textarea>
             </div>
             <button class="btn-sm btn-primary inline-block" type="submit" id="btn-completed">Działania zakończone</button>
-            <a class="nav-link inline-block" href="/audit/">Powrót</a>
+            <a class="nav-link inline-block" href="<c:url value="/audit/"/>">Powrót</a>
         </form>
     </div>
 </body>

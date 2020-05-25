@@ -5,15 +5,11 @@
 
 <html>
 <head>
-    <title>Zintegrowany System Zarządzania</title>
-    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/scheduleperiod.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/audit.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ncofi.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/audit_approve.js"></script>
+    <%@include file="../../jspf/head.jspf"%>
+    <link href="<c:url value="/css/scheduleperiod.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/audit.css"/>" rel="stylesheet">
+    <link href="<c:url value="/css/ncofi.css"/>" rel="stylesheet">
+    <script src="<c:url value="/js/audit_approve.js"/>"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">
@@ -63,7 +59,7 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <a class="nav-link" href="/audit/">Powrót</a>
+                <a class="nav-link" href="<c:url value="/audit/"/>">Powrót</a>
             </c:otherwise>
         </c:choose>
         <a

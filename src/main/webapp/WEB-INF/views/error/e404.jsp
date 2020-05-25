@@ -8,6 +8,6 @@
 <body>
 <h1>404</h1>
 <p>Brak strony o podanym adresie</p>
-<a href="/">Strona główna</a>
+<a href="<c:url value="/"/>">Strona główna</a>
 </body>
 </html>

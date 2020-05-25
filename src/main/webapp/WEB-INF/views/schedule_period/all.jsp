@@ -5,13 +5,9 @@
 
 <html>
 <head>
-    <title>Zintegrowany System Zarządzania</title>
-    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/scheduleperiod.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/scheduleperiod.js"></script>
+    <%@include file="../../jspf/head.jspf" %>
+    <link href="<c:url value="/css/scheduleperiod.css"/>" rel="stylesheet">
+    <script src="<c:url value="/js/scheduleperiod.js"/>"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">
@@ -23,7 +19,7 @@
     </jsp:include>
     <div class="data-view column">
         <div class="item-header">
-            <a href="/scheduleperiod/add">
+            <a href="<c:url value="/scheduleperiod/add"/>">
                 <button class="btn-primary">Nowy harmonogram</button>
             </a>
         </div>
@@ -48,7 +44,7 @@
                             <input type="hidden" value="${period.id}" name="toApproveId">
                             <button class="btn-sm btn-secondary">Zatwierdź</button>
                         </form>
-                        <form class="inline-block" method="get" action="/scheduleaudit/add">
+                        <form class="inline-block" method="get" action="<c:url value="/scheduleaudit/add"/>">
                             <input type="hidden" value="${period.id}" name="periodId">
                             <button class="btn-sm btn-link">Nowy audit</button>
                         </form>
@@ -82,12 +78,12 @@
                                 </td>
                                 <td>
                                     <c:if test="${period.state=='W przygotowaniu'}">
-                                        <form method="get" action="/scheduleaudit/edit" class="inline-block">
+                                        <form method="get" action="<c:url value="/scheduleaudit/edit"/>" class="inline-block">
                                             <input type="hidden" name="toEditScheduleAuditId"
                                                    value="${scheduleAudit.id}">
                                             <button class="btn-sm btn-primary">Edycja</button>
                                         </form>
-                                        <form method="get" action="/scheduleaudit/remove" class="inline-block">
+                                        <form method="get" action="<c:url value="/scheduleaudit/remove"/>" class="inline-block">
                                             <input type="hidden" name="toRemoveScheduleAuditId"
                                                    value="${scheduleAudit.id}">
                                             <button class="btn-sm btn-danger">Usuń</button>
@@ -95,7 +91,7 @@
                                     </c:if>
                                     <c:choose>
                                         <c:when test="${empty scheduleAudit.audit and period.state=='Zatwierdzony'}">
-                                            <form method="get" action="/audit/add" class="inline-block">
+                                            <form method="get" action="<c:url value="/audit/add"/>" class="inline-block">
                                                 <input type="hidden" name="scheduleAuditId" value="${scheduleAudit.id}">
                                                 <button class="btn-sm btn-secondary">Utwórz audit</button>
                                             </form>

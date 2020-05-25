@@ -5,14 +5,9 @@
 
 <html>
 <head>
-    <title>Zintegrowany System Zarządzania</title>
-    <meta name="csrf-token" content="${_csrf.token}">
-    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/functions.js"></script>
-    <script src="${pageContext.request.contextPath}/js/process/all.js"></script>
+    <%@include file="../../jspf/head.jspf" %>
+    <script src="<c:url value="/js/functions.js"/>"></script>
+    <script src="<c:url value="/js/process/all.js"/>"></script>
 </head>
 <body>
 <%@include file="../template/modalDialog.jspf" %>
@@ -26,7 +21,7 @@
     </jsp:include>
     <div class="data-view column">
         <div class="item-header">
-            <a href="/process/add">
+            <a href="<c:url value="/process/add"/>">
                 <button class="btn-primary">Nowy proces</button>
             </a>
         </div>
@@ -78,14 +73,14 @@
                         <div>
                             <c:choose>
                                 <c:when test="${empty process.documentFile.id}">
-                                    <c:set var="labelCaption" value="Wgraj dokument"></c:set>
-                                    <c:set var="btnUploadCaption" value="Zapisz"></c:set>
-                                    <c:set var="btnShowStyle" value="none"></c:set>
+                                    <c:set var="labelCaption" value="Wgraj dokument"/>
+                                    <c:set var="btnUploadCaption" value="Zapisz"/>
+                                    <c:set var="btnShowStyle" value="none"/>
                                 </c:when>
                                 <c:otherwise>
-                                    <c:set var="labelCaption" value="Podmień"></c:set>
-                                    <c:set var="btnUploadCaption" value="Podmień"></c:set>
-                                    <c:set var="btnShowStyle" value="inline-block"></c:set>
+                                    <c:set var="labelCaption" value="Podmień"/>
+                                    <c:set var="btnUploadCaption" value="Podmień"/>
+                                    <c:set var="btnShowStyle" value="inline-block"/>
                                 </c:otherwise>
                             </c:choose>
                             <c:if test="${process.state=='W przygotowaniu'}">

@@ -5,13 +5,9 @@
 
 <html>
 <head>
-    <title>Zintegrowany System Zarządzania</title>
-    <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/ims.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/css/scheduleperiod.css" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/jquery/jquery-3.4.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/scheduleperiod.js"></script>
+    <%@include file="../../jspf/head.jspf" %>
+    <link href="<c:url value="/css/scheduleperiod.css"/>" rel="stylesheet">
+    <script src="<c:url value="/js/scheduleperiod.js"/>"></script>
 </head>
 <body>
 <jsp:include page="../template/header.jsp">
@@ -29,12 +25,12 @@
                 <form method="post">
                     <input type="hidden" name="toApproveId" value="${schedulePeriod.id}">
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    <input type="submit" class="btn-sm btn-primary" value="Zatwierdż">
+                    <input type="submit" class="btn-sm btn-primary" value="Zatwierdź">
                 </form>
             </c:when>
             <c:otherwise>
                 <p class="alert-warning">Nie wszystkie procesy mają przypisany audit. Nie można zatwierdzić harmonogramu</p>
-                <a href="/scheduleperiod/">Powrót</a>
+                <a href="<c:url value="/scheduleperiod/"/>">Powrót</a>
             </c:otherwise>
         </c:choose>
         <table class="table">
