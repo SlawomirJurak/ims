@@ -10,11 +10,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "ncofi")
-public class NonConformanceOpportunityForImprovement {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class NonConformanceOpportunityForImprovement extends TableTemplate {
 
     @NotBlank
     private String type;
@@ -52,14 +48,6 @@ public class NonConformanceOpportunityForImprovement {
     private LocalDate completeDate;
 
     private Boolean successfully;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getType() {
         return type;

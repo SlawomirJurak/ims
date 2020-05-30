@@ -24,11 +24,11 @@
         <jsp:param name="moduleProcess" value="yes"/>
     </jsp:include>
     <div class="data-view column">
-        <jsp:include page="../template/data_header.jsp"></jsp:include>
+        <jsp:include page="../template/data_header.jsp"/>
         <form:form method="post" modelAttribute="process">
             <form:hidden path="id"/>
             <form:hidden path="state"/>
-            <input type="hidden" id="rv" name="rv" value="${process.rv}">
+            <input type="hidden" id="rv" name="rowVersion" value="${process.rowVersion}">
             <table>
                 <tr>
                     <td class="align-middle left-padding right-padding">

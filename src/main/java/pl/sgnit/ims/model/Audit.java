@@ -9,11 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "audits")
-public class Audit {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Audit extends TableTemplate {
 
     @Size(max = 4000)
     private String description;
@@ -33,14 +29,6 @@ public class Audit {
 
     @OneToMany(mappedBy = "audit")
     private List<NonConformanceOpportunityForImprovement> ncofiList = new ArrayList<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDescription() {
         return description;
@@ -98,7 +86,7 @@ public class Audit {
     public long getCompletedNcofiCount() {
         return ncofiList
                 .stream()
-                .filter(ncofi -> ncofi.getCompleteDate()!=null)
+                .filter(ncofi -> ncofi.getCompleteDate() != null)
                 .count();
     }
 }

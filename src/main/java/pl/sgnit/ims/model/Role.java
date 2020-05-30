@@ -5,11 +5,7 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "roles")
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Role extends TableTemplate {
 
     @Column(nullable = false, unique = true, length = 60)
     @NotBlank
@@ -17,14 +13,6 @@ public class Role {
 
     @NotBlank
     private String description;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

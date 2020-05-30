@@ -9,11 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "processes")
-public class Process {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Process extends TableTemplate {
 
     @NotBlank
     @Size(max = 200)
@@ -31,18 +27,6 @@ public class Process {
 
     @OneToOne
     private DocumentFile documentFile;
-
-    @Version
-    @Column(columnDefinition = "timestamp default now()")
-    private LocalDateTime rv;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -88,14 +72,6 @@ public class Process {
         this.documentFile = documentFile;
     }
 
-    public LocalDateTime getRv() {
-        return rv;
-    }
-
-    public void setRv(LocalDateTime rv) {
-        this.rv = rv;
-    }
-
     @PrePersist
     public void prePersist() {
         state = "W przygotowaniu";
@@ -104,6 +80,7 @@ public class Process {
 
     @PreUpdate
     public void preUpdate() {
+        super.preUpdate();
         code = code.toUpperCase();
     }
 }

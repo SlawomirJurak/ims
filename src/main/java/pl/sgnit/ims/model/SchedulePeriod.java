@@ -7,11 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "schedule_period")
-public class SchedulePeriod {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class SchedulePeriod extends TableTemplate {
 
     private Integer year;
 
@@ -24,14 +20,6 @@ public class SchedulePeriod {
     @OneToMany(mappedBy = "schedulePeriod")
     @OrderBy("month asc")
     private List<ScheduleAudit> scheduleAudits;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Integer getYear() {
         return year;

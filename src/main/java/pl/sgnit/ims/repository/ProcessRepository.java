@@ -15,5 +15,5 @@ public interface ProcessRepository extends JpaRepository<Process, Long> {
 
     List<Process> findByState(String state);
 
-    Optional<Process> findByIdAndRv(Long id, LocalDateTime rv);
+    Optional<Process> findByIdAndRowVersion(Long id, Integer rowVersion);
 }

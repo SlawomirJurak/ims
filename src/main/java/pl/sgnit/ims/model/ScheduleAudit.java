@@ -13,11 +13,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "schedule_audits")
-public class ScheduleAudit {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ScheduleAudit extends TableTemplate {
 
     @Min(1)
     @Max(12)
@@ -39,14 +35,6 @@ public class ScheduleAudit {
 
     @ManyToOne
     private SchedulePeriod schedulePeriod;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Integer getMonth() {
         return month;

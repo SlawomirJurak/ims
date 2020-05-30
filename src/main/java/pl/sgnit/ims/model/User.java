@@ -11,11 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class  User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends TableTemplate {
 
     @Column(nullable = false, unique = true, length = 60)
     @NotBlank
@@ -45,14 +41,6 @@ public class  User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUserName() {
         return userName;
