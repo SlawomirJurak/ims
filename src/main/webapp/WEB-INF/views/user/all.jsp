@@ -106,8 +106,6 @@
                     </td>
                     <td class="align-middle">
                         <button class="btn-sm btn-primary btn-edit" data-id="${user.id}">Edycja</button>
-                        <button class="btn-sm btn-danger btn-remove" data-id="${user.id}">Usuń</button>
-                        <button class="btn-sm btn-dark btn-change-password" data-id="${user.id}">Zmiana hasła</button>
                     </td>
                 </tr>
             </c:forEach>

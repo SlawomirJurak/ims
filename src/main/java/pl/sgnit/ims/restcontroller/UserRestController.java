@@ -39,12 +39,6 @@ public class UserRestController {
         return user;
     }
 
-    @DeleteMapping("/rremove/{id}")
-    public String removeUser(@PathVariable Long id) {
-        userService.removeUser(id);
-        return "{\"state\": \"OK\"}";
-    }
-
     @PostMapping("/changePassword/{id}/{pass}")
     public String changePassword(@PathVariable Long id, @PathVariable(name = "pass") String newPassword) {
         userService.changePassword(id, newPassword);

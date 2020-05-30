@@ -71,14 +71,7 @@ public class UserService {
         return "OK";
     }
 
-    public void removeUser(Long userId) {
-        userRepository.deleteById(userId);
-    }
-
     public void changePassword(Long id, String newPassword) {
-        System.out.println(id);
-        System.out.println(newPassword);
-
         User user = userRepository.findById(id).get();
 
         user.setPassword(passwordEncoder.encode(newPassword));
