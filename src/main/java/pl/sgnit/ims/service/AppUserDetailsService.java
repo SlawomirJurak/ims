@@ -28,6 +28,8 @@ public class AppUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(userName);
         }
+        user.setLoginCounter(user.getLoginCounter() + 1);
+        userRepository.save(user);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         user.getRoles().forEach(role ->
                 grantedAuthorities.add(new SimpleGrantedAuthority(role.getName())));

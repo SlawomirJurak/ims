@@ -7,6 +7,7 @@ import pl.sgnit.ims.model.Role;
 import pl.sgnit.ims.model.User;
 import pl.sgnit.ims.repository.RoleRepository;
 import pl.sgnit.ims.repository.UserRepository;
+import pl.sgnit.ims.util.NewPassword;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,6 +16,8 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
+    private final String START_PASSWORD = "123456789";
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -50,7 +53,7 @@ public class UserService {
         Role role;
 
         setUserRole(user);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(START_PASSWORD));
         userRepository.save(user);
         return "OK";
     }
@@ -82,6 +85,25 @@ public class UserService {
         User user = userRepository.findByUserName(userName);
 
         return user != null;
+    }
+
+    public boolean hasUserStartPassword(User user) {
+        return passwordEncoder.matches(START_PASSWORD, user.getPassword());
+    }
+
+    public String setPassword(Long userId, NewPassword newPassword) {
+        if (!newPassword.getNewPassword1().equals(newPassword.getNewPassword2())) {
+            return "Wpisane hasła są różne";
+        }
+
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            user.get().setPassword(passwordEncoder.encode(newPassword.getNewPassword1()));
+            userRepository.save(user.get());
+            return "OK";
+        }
+        return "Błąd podczas zmiany hasła";
     }
 
     private void setUserRole(User user) {

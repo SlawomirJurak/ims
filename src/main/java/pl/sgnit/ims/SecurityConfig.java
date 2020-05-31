@@ -26,17 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/jquery/**").permitAll()
-//                .antMatchers("/css/**").permitAll()
-//                .antMatchers("/bootstrap/**").permitAll()
-//                .antMatchers("/").authenticated()
-//                .antMatchers("/audit/**").hasAnyAuthority("all_modules", "audit")
-//                .antMatchers("/ncofi/**").hasAnyAuthority("all_modules", "audit")
-//                .antMatchers("/process/**").hasAnyAuthority("all_modules", "process")
-//                .antMatchers("/scheduleaudit/**").hasAnyAuthority("all_modules")
-//                .antMatchers("/scheduleperiod/**").hasAnyAuthority("all_modules")
-//                .antMatchers("/**").hasAnyAuthority("ROLE_ADMIN", "administrator")
-
+                .antMatchers("/user/setPassword/**").authenticated()
                 .antMatchers("/user/**").hasAnyAuthority("ROLE_ADMIN", "administrator")
                 .antMatchers("/role/**").hasAnyAuthority("ROLE_ADMIN", "administrator")
                 .antMatchers("/documents/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
@@ -45,9 +35,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/process/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
                 .antMatchers("/scheduleaudit/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
                 .antMatchers("/scheduleperiod/**").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
-                .antMatchers("/").hasAnyAuthority("ROLE_ADMIN", "administrator", "all_modules")
+                .antMatchers("/").authenticated()
                 .and().formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/?login=true", true)
                 .and().logout().logoutSuccessUrl("/login");
     }
 

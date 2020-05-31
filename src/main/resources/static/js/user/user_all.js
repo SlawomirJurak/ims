@@ -79,12 +79,6 @@ function checkUserData(edit) {
         showDialog('Proszę wpisać nazwę użytkownika');
         return false;
     }
-    if (!prefix) {
-        if (!$('#user-password').val()) {
-            showDialog('Proszę wpisać hasło.');
-            return false
-        }
-    }
     if (!$('#' + prefix + 'user-email').val()) {
         showDialog('Proszę wpisać e-mail użytkownika');
         return false;

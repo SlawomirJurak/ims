@@ -3,6 +3,7 @@ package pl.sgnit.ims.restcontroller;
 import org.springframework.web.bind.annotation.*;
 import pl.sgnit.ims.model.User;
 import pl.sgnit.ims.service.UserService;
+import pl.sgnit.ims.util.NewPassword;
 
 import java.util.List;
 
@@ -43,5 +44,11 @@ public class UserRestController {
     public String changePassword(@PathVariable Long id, @PathVariable(name = "pass") String newPassword) {
         userService.changePassword(id, newPassword);
         return "{\"state\": \"OK\"}";
+    }
+
+    @PostMapping("/setPassword/{id}")
+    public String setPassword(@RequestBody NewPassword newPassword, @PathVariable Long id) {
+
+        return userService.setPassword(id, newPassword);
     }
 }

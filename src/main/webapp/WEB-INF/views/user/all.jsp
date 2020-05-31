@@ -40,10 +40,6 @@
             </div>
             <div>
                 <div class="inline-block">
-                    <label class="field-label" for="user-password">Hasło</label> <br/>
-                    <input id="user-password" type="password" maxlength="150">
-                </div>
-                <div class="inline-block">
                     <label class="field-label" for="user-email">E-mail</label> <br/>
                     <input id="user-email" type="email" maxlength="150">
                 </div>

@@ -42,6 +42,9 @@ public class User extends TableTemplate {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @ColumnDefault("0")
+    private Integer loginCounter;
+
     public String getUserName() {
         return userName;
     }
@@ -110,6 +113,14 @@ public class User extends TableTemplate {
         this.administrator = administrator;
     }
 
+    public Integer getLoginCounter() {
+        return loginCounter == null ? 0 : loginCounter;
+    }
+
+    public void setLoginCounter(Integer loginCounter) {
+        this.loginCounter = loginCounter;
+    }
+
     @PrePersist
     public void prePersist() {
         if (enabled == null) {
@@ -118,6 +129,7 @@ public class User extends TableTemplate {
         if (administrator == null) {
             administrator = false;
         }
+        loginCounter = 0;
     }
 
     public void addRole(Role role) {
