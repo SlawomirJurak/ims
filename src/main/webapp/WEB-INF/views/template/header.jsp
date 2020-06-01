@@ -18,7 +18,7 @@
     <sec:authorize access="isAuthenticated()">
         <div class="info">
             <div class="user-info font10pt font-weight-bold">
-                Witaj: <sec:authentication property="principal.username"/>
+                Witaj: <span id="logged-user-name"><sec:authentication property="principal.username"/></span>
             </div>
             <div>
                 <a href="<c:url value="/logout"/>">Wyloguj</a>

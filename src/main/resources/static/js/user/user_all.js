@@ -1,6 +1,4 @@
 const editRow = createEditRow();
-const removeRow = createRemoveRow();
-const changePasswordRow = createChangePasswordRow();
 let contextPath;
 
 $(document).ready(function () {
@@ -29,24 +27,6 @@ $(document).ready(function () {
     tableUsers.on('click', '#row-btn-save', function () {
         saveUser(true, $(this));
     })
-    tableUsers.on('click', '.btn-remove', function () {
-        initRemoveUser($(this));
-    });
-    tableUsers.on('click', '#row-btn-remove', function () {
-        removeUser($(this));
-    })
-    tableUsers.on('click', '#row-btn-dont-remove', function () {
-        hideRemoveRow();
-    })
-    tableUsers.on('click', '.btn-change-password', function () {
-        initChangePassword($(this));
-    })
-    tableUsers.on('click', '#row-btn-change-password', function () {
-        changePassword($(this));
-    })
-    tableUsers.on('click', '#row-btn-dont-change-password', function () {
-        hideChangePasswordRow();
-    })
 });
 
 function showNewUserForm() {
@@ -63,7 +43,6 @@ function hideNewUserForm() {
 
 function setUserButtonsDisabled(disabled) {
     $('.btn-edit').prop('disabled', disabled);
-    $('.btn-remove').prop('disabled', disabled);
     $('.btn-change-password').prop('disabled', disabled);
 }
 
@@ -115,13 +94,12 @@ function saveUser(edit, button) {
             administrator: typeField.val() === 'y'
         }
         if (edit) {
-            let userId = findUserId(button);
-
-            newUser['id'] = userId;
+            newUser['id'] = findUserId(button);
+            newUser['rowVersion'] = findUserRowVersion(button);
         }
         let saveUrl = edit ? '/user/redit' : '/user/radd';
         $.ajax({
-            url: contextPath+saveUrl,
+            url: contextPath + saveUrl,
             data: JSON.stringify(newUser),
             contentType: 'application/json',
             method: 'POST'
@@ -133,71 +111,12 @@ function saveUser(edit, button) {
                 showDialog(result);
             }
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log('Wystąpił błąd podczas rejestracji nowego użytkownika');
+            showDialog('Wystąpił błąd podczas zapisu danych użytkownika');
             console.log(jqXHR);
             console.log(textStatus);
             console.log(errorThrown);
         });
     }
-}
-
-function initRemoveUser(button) {
-    let currentRow = button.closest('tr');
-
-    currentRow.after(removeRow);
-    setButtonsDisabled(true);
-}
-
-function removeUser(button) {
-    let userId = findUserId(button);
-
-    $.ajax({
-        url: contextPath+'/user/rremove/' + userId,
-        method: 'DELETE'
-    }).done(function (result) {
-        button.closest('tr').prev().remove();
-        hideRemoveRow();
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('Wystąpił błąd podczas usuwania użytkownika');
-        console.log(jqXHR);
-        console.log(textStatus);
-        console.log(errorThrown);
-    });
-}
-
-function initChangePassword(button) {
-    let currentRow = button.closest('tr');
-
-    currentRow.after(changePasswordRow);
-    setButtonsDisabled(true);
-}
-
-function changePassword(button) {
-    let pass1 = $('#pass1').val();
-    let pass2 = $('#pass2').val();
-    let id = findUserId(button);
-
-    if (pass1 !== pass2) {
-        showDialog('Wpisane hasła nie są takie same');
-    } else {
-        $.ajax({
-            url: contextPath+'/user/changePassword/'+id+'/'+pass1,
-            method: 'POST'
-        }).done( function (result) {
-            hideChangePasswordRow();
-            setButtonsDisabled(false);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-            console.log('Wystąpił błąd podczas zmiany hasła');
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        });
-    }
-}
-
-function hideChangePasswordRow() {
-    changePasswordRow.remove();
-    setButtonsDisabled(false);
 }
 
 function validateEmail(email) {
@@ -209,20 +128,22 @@ function editUser(button) {
     let currentRow = button.closest('tr');
 
     $.ajax({
-        url: contextPath+'/user/rget/' + button.data('id'),
+        url: contextPath + '/user/rget/' + button.data('id'),
         method: 'GET'
     }).done(function (result) {
         editRow.find('#row-user-name').val(result.userName);
         editRow.find('#row-user-first-name').val(result.firstName);
         editRow.find('#row-user-last-name').val(result.lastName);
-        editRow.find('#row-user-password').val(result.password);
         editRow.find('#row-user-enabled').prop('checked', result.enabled);
         editRow.find('#row-user-email').val(result.email);
         editRow.find('#row-user-type').val(result.administrator ? 'y' : 'n');
+        if (result.administrator && result.userName === $('#logged-user-name').text()) {
+            editRow.find('#row-user-enabled').attr('disabled', true);
+        }
         currentRow.after(editRow);
         setButtonsDisabled(true);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('Wystąpił błąd podczas zapisywania zmian');
+        showDialog('Wystąpił błąd podczas zapisywania zmian');
         console.log(jqXHR);
         console.log(textStatus);
         console.log(errorThrown);
@@ -235,18 +156,12 @@ function hideEditRow() {
     setButtonsDisabled(false);
 }
 
-function hideRemoveRow() {
-    removeRow.remove();
-    setButtonsDisabled(false);
-}
-
 function clearNewUserForm(edit) {
     let prefix = edit ? 'row-' : '';
 
     $('#' + prefix + 'user-name').val('');
     $('#' + prefix + 'user-first-name').val('');
     $('#' + prefix + 'user-last-name').val('');
-    $('#' + prefix + 'user-password').val('');
     $('#' + prefix + 'user-enabled').prop('checked', false);
     $('#' + prefix + 'user-email').val('');
     $('#' + prefix + 'user-type').val('');
@@ -274,8 +189,7 @@ function createRow(rowNo, user) {
                         <input type="checkbox" disabled="disabled" ${user.administrator ? 'checked' : ''}>
                     </td>
                     <td class="align-middle">
-                        <button class="btn-sm btn-primary btn-edit" data-id="${user.id}">Edycja</button>
-                        <button class="btn-sm btn-danger btn-remove" data-id="${user.id}">Usuń</button>
+                        <button class="btn-sm btn-primary btn-edit" data-id="${user.id}" data-row-version="${user.rowVersion}">Edycja</button>
                     </td>
                 </tr>`);
     return row;
@@ -285,7 +199,7 @@ function getUserList() {
     let userList = [];
 
     $.ajax({
-        url: contextPath+'/user/rall',
+        url: contextPath + '/user/rall',
         method: 'GET'
     }).done(function (result) {
         for (let i = 0; i < result.length; i++) {
@@ -293,7 +207,7 @@ function getUserList() {
         }
         showUserList(userList);
     }).fail(function (jqXHR, textStatus, errorThrown) {
-        console.log('Nie udało pobrać się listy użytkowników');
+        showDialog('Nie udało pobrać się listy użytkowników');
         console.log(jqXHR);
         console.log(textStatus);
         console.log(errorThrown);
@@ -306,6 +220,12 @@ function findUserId(button) {
     return row.find('.btn-edit').data('id');
 }
 
+function findUserRowVersion(button) {
+    let row = button.closest('tr');
+    row = row.prev();
+    return row.find('.btn-edit').data('rowVersion');
+}
+
 function createEditRow() {
     let row = $('<tr>');
     let cell = $('<td colspan="7"></td>')
@@ -313,21 +233,21 @@ function createEditRow() {
             <div>
                 <div class="inline-block">
                     <label for="row-user-name">Nazwa</label><br/>
-                    <input id="row-user-name" type="text" maxlength="60">
+                    <input id="row-user-name" type="text" maxlength="60"/>
                 </div>
                 <div class="inline-block">
                     <label for="row-user-first-name">Imię</label> <br/>
-                    <input id="row-user-first-name" type="text" maxlength="150">
+                    <input id="row-user-first-name" type="text" maxlength="150"/>
                 </div>
                 <div class="inline-block">
                     <label for="row-user-last-name">Nazwisko</label> <br/>
-                    <input id="row-user-last-name" type="text" maxlength="150">
+                    <input id="row-user-last-name" type="text" maxlength="150"/>
                 </div>
             </div>
             <div>
                 <div class="inline-block">
                     <label for="row-user-email">E-mail</label> <br/>
-                    <input id="row-user-email" type="email" maxlength="150">
+                    <input id="row-user-email" type="email" maxlength="150"/>
                 </div>
                 <div class="inline-block">
                     <label for="row-user-type">Typ</label> <br/>
@@ -338,7 +258,7 @@ function createEditRow() {
                     </select>
                 </div>
                 <div class="inline-block">
-                    <input id="row-user-enabled" type="checkbox">
+                    <input id="row-user-enabled" type="checkbox"/>
                     <label for="row-user-enabled">Aktywny</label>
                 </div>
             </div>
@@ -347,37 +267,6 @@ function createEditRow() {
                 <button id="row-btn-cancel" class="btn-sm btn-light">Anuluj</button>
             </div>
         </div>`);
-    row.append(cell);
-    return row;
-}
-
-function createRemoveRow() {
-    let row = createEmptyRow();
-
-    row.find('td').html(`<div id="row-remove-user">
-                <p class="inline-block">Czy usunąć wybranego użytkownika?</p>
-                <button id="row-btn-remove" class="btn-sm btn-danger">Tak</button>
-                <button id="row-btn-dont-remove" class="btn-sm btn-light">Anuluj</button>
-               </div>`);
-    return row;
-}
-
-function createChangePasswordRow() {
-    let row = createEmptyRow();
-
-    row.find('td').html(`<div class="row-change-password">
-                        <input id="pass1" type="password">
-                        <input id="pass2" type="password">
-                        <button id="row-btn-change-password" class="btn-sm btn-primary">Zapisz hasło</button>
-                        <button id="row-btn-dont-change-password" class="btn-sm btn-light">Anuluj</button>
-                    </div>`)
-    return row;
-}
-
-function createEmptyRow() {
-    let row = $('<tr>');
-    let cell = $('<td colspan="7"></td>')
-
     row.append(cell);
     return row;
 }

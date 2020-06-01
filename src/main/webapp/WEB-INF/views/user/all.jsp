@@ -101,7 +101,7 @@
                         </c:choose>
                     </td>
                     <td class="align-middle">
-                        <button class="btn-sm btn-primary btn-edit" data-id="${user.id}">Edycja</button>
+                        <button class="btn-sm btn-primary btn-edit" data-id="${user.id}" data-row-version="${user.rowVersion}">Edycja</button>
                     </td>
                 </tr>
             </c:forEach>
