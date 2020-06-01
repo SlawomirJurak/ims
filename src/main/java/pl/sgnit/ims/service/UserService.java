@@ -7,10 +7,8 @@ import pl.sgnit.ims.model.Role;
 import pl.sgnit.ims.model.User;
 import pl.sgnit.ims.repository.RoleRepository;
 import pl.sgnit.ims.repository.UserRepository;
-import pl.sgnit.ims.util.NewPassword;
+import pl.sgnit.ims.util.*;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +20,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordChecker passwordChecker;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, PasswordChecker passwordChecker) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.passwordChecker = passwordChecker;
     }
 
     public List<User> findAll() {
@@ -94,6 +94,12 @@ public class UserService {
     public String setPassword(Long userId, NewPassword newPassword) {
         if (!newPassword.getNewPassword1().equals(newPassword.getNewPassword2())) {
             return "Wpisane hasła są różne";
+        }
+
+        String passwordMessage = passwordChecker.checkPassword(newPassword.getNewPassword1());
+
+        if (!"OK".equals(passwordMessage)) {
+            return passwordMessage;
         }
 
         Optional<User> user = userRepository.findById(userId);
