@@ -38,7 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").authenticated()
                 .and().formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/?login=true", true)
+                .defaultSuccessUrl("/loginSuccess", true)
+                .failureUrl("/loginError")
                 .and().logout().logoutSuccessUrl("/login");
     }
 

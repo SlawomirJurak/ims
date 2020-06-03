@@ -2,8 +2,7 @@ package pl.sgnit.ims.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class LoginController {
@@ -19,5 +18,17 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout() {
         return "logout";
+    }
+
+    @RequestMapping("/loginError")
+    @ResponseBody
+    public String loginError() {
+        return "Nieprawidłowa nazwa użytkownika lub hasło";
+    }
+
+    @RequestMapping("/loginSuccess")
+    @ResponseBody
+    public String loginSuccess() {
+        return "OK";
     }
 }

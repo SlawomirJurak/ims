@@ -7,6 +7,8 @@
 <head>
     <%@include file="../jspf/head.jspf" %>
     <link href="<c:url value="/css/login.css"/>" rel="stylesheet">
+    <script src="<c:url value="/js/functions.js"/>"></script>
+    <script src="<c:url value="/js/login.js"/>"></script>
 </head>
 <body>
 <div class="header">
@@ -26,19 +28,22 @@
             <div style="padding-bottom: 5px">
                 <div class="div-label inline-block">Użytkownik:</div>
                 <div class="div-input inline-block">
-                    <input type="text" name="username" autofocus/>
+                    <input type="text" name="username" autofocus id="username"/>
                 </div>
             </div>
             <div style="padding-bottom: 5px">
                 <div class="div-label inline-block">Hasło:</div>
                 <div class="div-input inline-block">
-                    <input type="password" name="password"/>
+                    <input type="password" name="password" id="password"/>
                 </div>
             </div>
-            <div style="display: flex; justify-content: center"><input type="submit" value="Zaloguj"/></div>
+            <div style="display: flex; justify-content: center">
+                <input type="submit" value="Zaloguj" id="btn-login"/>
+            </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
     </div>
 </div>
+<%@include file="template/modalDialog.jspf"%>
 </body>
 </html>
