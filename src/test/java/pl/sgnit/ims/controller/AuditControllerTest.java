@@ -1,20 +1,12 @@
 package pl.sgnit.ims.controller;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.ui.ExtendedModelMap;
-import org.springframework.ui.Model;
-import pl.sgnit.ims.model.Audit;
-import pl.sgnit.ims.model.ScheduleAudit;
-import pl.sgnit.ims.service.AuditService;
-import pl.sgnit.ims.service.NonConformanceOpportunityForImprovementService;
-import pl.sgnit.ims.service.ScheduleAuditService;
+import org.junit.jupiter.api.*;
+import org.mockito.*;
+import org.springframework.ui.*;
+import pl.sgnit.ims.model.*;
+import pl.sgnit.ims.service.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 class AuditControllerTest {
     private static AuditController auditController;
@@ -48,7 +40,7 @@ class AuditControllerTest {
     @Test
     void initAdd() {
         Model model = new ExtendedModelMap();
-        Long scheduleAuditId = 1l;
+        Long scheduleAuditId = 1L;
         Optional<ScheduleAudit> sa = Optional.of(new ScheduleAudit());
 
         Mockito.when(scheduleAuditService.findById(Mockito.anyLong())).thenReturn(sa);
@@ -72,7 +64,7 @@ class AuditControllerTest {
     @Test
     void initEdit() {
         Model model = new ExtendedModelMap();
-        Long idToEdit = 1l;
+        Long idToEdit = 1L;
         Optional<Audit> audit = Optional.of(new Audit());
 
         Mockito.when(auditService.findById(idToEdit)).thenReturn(audit);
@@ -83,13 +75,39 @@ class AuditControllerTest {
 
     @Test
     void edit() {
+        Audit audit = new Audit();
+        Optional<Audit> oldAudit = Optional.of(new Audit());
+
+        audit.setId(1L);
+        Mockito.when(auditService.findById(1L)).thenReturn(oldAudit);
+        String returnValue = auditController.edit(audit);
+        Assertions.assertEquals("redirect:", returnValue);
     }
 
     @Test
     void initApprove() {
+        Model model = new ExtendedModelMap();
+        Long idToApprove = 1L;
+        Optional<Audit> audit = Optional.of(new Audit());
+        List<NonConformanceOpportunityForImprovement> ncofiList = new ArrayList<>();
+
+        ncofiList.add(new NonConformanceOpportunityForImprovement());
+        Mockito.when(auditService.findById(idToApprove)).thenReturn(audit);
+        Mockito.when(ncofiService.findByAuditIdAndConfirmDateIsNull(idToApprove)).thenReturn(ncofiList);
+        String returnValue = auditController.initApprove(model, idToApprove);
+        Assertions.assertEquals("audit/approve", returnValue);
+        Assertions.assertTrue(model.containsAttribute("audit"));
+        Assertions.assertTrue(model.containsAttribute("ncofiList"));
     }
 
     @Test
     void approve() {
+        Optional<Audit> opAudit = Optional.of(new Audit());
+        Long idToApprove = 1L;
+        String approvedBy = "admin";
+
+        Mockito.when(auditService.findById(Mockito.anyLong())).thenReturn(opAudit);
+        String returnValue = auditController.approve(idToApprove, approvedBy);
+        Assertions.assertEquals("redirect:/audit/", returnValue);
     }
 }
